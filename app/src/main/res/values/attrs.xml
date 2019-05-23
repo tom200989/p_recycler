@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RcvRefreshWidget">
+
+        <!-- 头部图标高度比例 -->
+        <attr name="head_logo_rate" format="float" />
+        <!-- 底部图标高度比例 -->
+        <attr name="bottom_logo_rate" format="float" />
+        <!-- 图标旋转一圈的时间(毫秒) -->
+        <attr name="logo_rotate_duration" format="integer" />
+        <!-- 头部背景色 -->
+        <attr name="head_background_color" format="string" />
+        <!-- 底部背景色 -->
+        <attr name="bottom_background_color" format="string" />
+        <!-- 头部图标 -->
+        <attr name="head_logo_src_id" format="reference" />
+        <!-- 底部图标 -->
+        <attr name="bottom_logo_src_id" format="reference" />
+
+    </declare-styleable>
+</resources>

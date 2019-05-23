@@ -1,0 +1,84 @@
+[PART1: 场景]
+针对于现在github上的下拉刷新控件, 不是特别的简单好用, 现封装一套精简的［上拉加载、下拉刷新］的控件
+
+[PART2: 包/类说明]
+    adapter:    用于测试的adapter和holder
+    bean:       用于测试的bean
+    core:       控件的核心类
+        RcvMAWidget:        继承自RecyclerView的自定义控件, 该控件为内部控件, 不对开发者使用
+        RcvRefreshWidget:   封装了［下拉刷新头］［上拉加载尾］布局的控件, 该控件为对外控件, 提供给开发者使用
+    tools:  辅助工具
+    ui:     用于测试的视图
+    
+[PART3: 方法]
+    <public>
+        public RcvMAWidget getRcv():    获取列表 (由开发人员对RCV对象进行设置)
+        public void refreshFinish():    刷新完成 (由开发人员根据业务逻辑调用)
+        public void loadFinish():       加载完成 (由开发人员根据业务逻辑调用)
+    <listener>
+        setOnBeginRefreshListener(recyclerView -> {...此处可执行你的网络请求...}):     开始刷新
+        setOnBeginLoadMoreListener(recyclerView -> {...此处可执行你的网络请求...}):    开始加载
+
+[PART4: 属性]
+        bottom_background_color:    底部背景色, 如"#009688"
+        bottom_logo_rate:           底部图标高度比例, 如"0.7"(0 ~ 1)
+        bottom_logo_src_id:         底部图标ID, 如"@drawable/load_test"
+        head_background_color:      头部背景色, 如"#009688"
+        head_logo_rate:             头部图标高度比例, 如"0.7"(0 ~ 1)
+        head_logo_src_id:           头部图标ID, 如"@drawable/load_test"
+        logo_rotate_duration:       图标旋转间隔(毫秒), 如"600"
+
+[PART5: 使用]
+    <XML>
+        <com.p_recycler.p_recycler.core.RcvRefreshWidget
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:bottom_background_color="#009688"
+            app:bottom_logo_rate="0.7"
+            app:bottom_logo_src_id="@drawable/load_test"
+            app:head_background_color="#009688"
+            app:head_logo_rate="0.7"
+            app:head_logo_src_id="@drawable/load_test"
+            app:logo_rotate_duration="600" />
+            
+    <java>
+        // 1.查找外部自定义控件
+        RcvRefreshWidget refresh = findViewById(R.id.refresh);
+        
+        // 2.通过RcvRefreshWidget获取到其内部的加强版recyclerview
+        RcvMAWidget rcv = refresh.getRcv();
+        
+        // 3.按照传统的方法配置layoutManager以及adapter (此处以瀑布流布局为例)
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);// 如果采用瀑布流, 建议加上这个, 用于防止item闪烁
+        rcv.setLayoutManager(layoutManager);
+        StaggeredGridAdapter staggerAdapter = new StaggeredGridAdapter(this, $你的数据$);
+        rcv.setAdapter(staggerAdapter);
+        
+        // 4.设置［下拉刷新］的监听
+        refresh.setOnBeginRefreshListener(recyclerView -> {
+            // 这里执行你的网络请求
+            network running(){
+                // 请求数据后, 调用refreshFinish关闭顶部视图
+                refresh.refreshFinish()
+            }
+        });
+        
+        设置［上拉加载］的监听
+        refresh.setOnBeginLoadMoreListener(recyclerView -> {
+            // 这里执行你的网络请求
+            network running(){
+                // 请求数据后, 调用refreshFinish关闭顶部视图
+                refresh.refreshFinish()
+            }
+        });
+
+[PART6: 注意]
+1.依赖版本: 
+    api 'com.android.support:appcompat-v7:28.0.0'
+    api 'com.android.support:recyclerview-v7:28.0.0'
+    
+2.使用瀑布流布局时, 如果出现item在刷新时错位, 建议使用如下方式
+    格式: notifyItemRangeChanged(startIndex, lastIndex);// startIndex: 起始坐标;lastIndex: 终止坐标
+    如: notifyItemRangeChanged(0, staggerBeans.size());

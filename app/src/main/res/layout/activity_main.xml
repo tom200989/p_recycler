@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <com.p_recycler.p_recycler.core.RcvRefreshWidget
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:bottom_background_color="#009688"
+        app:bottom_logo_rate="0.7"
+        app:bottom_logo_src_id="@drawable/load_test"
+        app:head_background_color="#009688"
+        app:head_logo_rate="0.7"
+        app:head_logo_src_id="@drawable/load_test"
+        app:logo_rotate_duration="600" />
+
+</RelativeLayout>
