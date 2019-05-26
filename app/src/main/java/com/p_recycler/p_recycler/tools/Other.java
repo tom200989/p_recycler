@@ -1,5 +1,9 @@
 package com.p_recycler.p_recycler.tools;
 
+import android.app.Activity;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,5 +29,15 @@ public class Other {
             }
         }
         return temps.size();
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    public static void hideKeyBoard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 }

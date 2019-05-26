@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 
+import com.p_recycler.p_recycler.tools.Other;
 import com.p_recycler.p_recycler.tools.TimerHelper;
 
 import java.util.Objects;
@@ -126,6 +127,7 @@ public class RcvMAWidget extends RecyclerView {
             case MotionEvent.ACTION_DOWN:
                 downY = downDY = event.getY();
                 downTime = System.currentTimeMillis();
+                Other.hideKeyBoard((Activity) context);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -217,7 +219,7 @@ public class RcvMAWidget extends RecyclerView {
                             // TOAT : 移动中上间距变动 -- 回调
                             refreshFingerMoveNext(marginTop);
                         } else {
-                            
+
                             Log.w(TAG, "direct <= 1 在上推(手指往上推)");
                             setRcvMarginTop(0);
                             refreshFingerMoveNext(0);
